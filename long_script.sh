@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Simulate a long-running task with progress updates
-DURATION=300  # 5 minutes (300 seconds)
-INTERVAL=10   # Update every 10 seconds
+DURATION=600  # 10 minutes (600 seconds)
+INTERVAL=20   # Update every 20 seconds
 
 echo "Starting long-running task (Total duration: ${DURATION}s)"
 
