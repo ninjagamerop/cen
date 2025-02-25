@@ -1,17 +1,45 @@
 build:
+  idle_timeout: 30  # System-level timeout (30 minutes of inactivity)
   environment:
-    python: "pypy3.7-7.3.4"  # Use PyPy 3.7 (7.3.4)
+    python: "pypy3.7-7.3.4"  # PyPy 3.7 (7.3.4)
   dependencies:
     before:
-      - python3 -m ensurepip  # Ensure pip is installed for PyPy
-      - python3 -m pip install --upgrade pip
-      - pip install telebot pytz flask aiogram pymongo pyTelegramBotAPI python-telegram-bot motor
-      - chmod +x long_script.sh
-      - ./long_script.sh
+      - pypy3 -m ensurepip  # Use PyPy's interpreter
+      - pypy3 -m pip install --upgrade pip
+      - pypy3 -m pip install telebot pytz flask aiogram pymongo pyTelegramBotAPI python-telegram-bot motor
   
   tests:
     override:
       - chmod +x bgmi || true
       - chmod +x bgmi1240179115 || true
-       # Prevent failure if file doesn't exist
-      - python3 ninja.py
+      - pypy3 -c "
+from functools import wraps
+import signal
+
+# Define idle_timeout decorator function
+def idle_timeout(seconds):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            def timeout_handler(signum, frame):
+                raise TimeoutError(f'Function {func.__name__} timed out after {seconds} seconds')
+            
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(seconds)
+            try:
+                result = func(*args, **kwargs)
+            finally:
+                signal.alarm(0)
+            return result
+        return wrapper
+    return decorator
+
+# Example usage in your test
+@idle_timeout(300)  # 5 minute timeout
+def run_tests():
+    import ninja
+    ninja.main()
+
+if __name__ == '__main__':
+    run_tests()
+"
