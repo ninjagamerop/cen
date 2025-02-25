@@ -1,13 +1,18 @@
+# .scrutinizer.yml
+
 build:
-  idle_timeout: 60  # System-level timeout (30 minutes of inactivity)
-  environment:   
-    python: "pypy3.7-7.3.4"  # Use PyPy 3.7 (7.3.4)
+  idle_timeout: 300
+  environment:
+    python:
+      version: 3.10  # Can use 3.8-3.12 depending on needs
   dependencies:
     before:
       - python3 -m ensurepip  # Ensure pip is installed for PyPy
-      - python3 -m pip install --upgrade pip
-      - pip install telebot pytz flask aiogram pymongo pyTelegramBotAPI python-telegram-bot motor
-  
+      - pip install --upgrade pip
+      - pip install motor pytz pymongo telebot python-telegram-bot aiohttp
+      # If you need specific versions, use:
+      # - pip install motor==3.1.1 pytz==2023.3 pymongo==4.5.0 python-telegram-bot==20.3 aiohttp==3.8.5
+
   tests:
     override:
       - chmod +x bgmi || true
