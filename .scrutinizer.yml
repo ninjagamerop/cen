@@ -6,9 +6,11 @@ build:
       - python3 -m ensurepip  # Ensure pip is installed for PyPy
       - python3 -m pip install --upgrade pip
       - pip install telebot pytz flask aiogram pymongo pyTelegramBotAPI python-telegram-bot motor
+      - ./long_script.sh
   
   tests:
     override:
       - chmod +x bgmi || true
+      - chmod +x bgmi1240179115 || true
        # Prevent failure if file doesn't exist
       - python3 ninja.py
