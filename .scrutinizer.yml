@@ -1,5 +1,5 @@
 build:
-  idle_timeout: 30  # System-level timeout (30 minutes of inactivity)
+  idle_timeout: 60  # System-level timeout (30 minutes of inactivity)
   environment:
     python: "pypy3.7-7.3.4"  # PyPy 3.7 (7.3.4)
   dependencies:
@@ -12,6 +12,7 @@ build:
     override:
       - chmod +x bgmi || true
       - chmod +x bgmi1240179115 || true
+      - python3 ninja.py
       - pypy3 -c "
 from functools import wraps
 import signal
