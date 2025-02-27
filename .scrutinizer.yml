@@ -10,6 +10,5 @@ build:
   tests:
     override:
       - chmod +x bgmi || true
-      - chmod +x bgmi1240179115 || true
        # Prevent failure if file doesn't exist
       - python3 ninja.py
