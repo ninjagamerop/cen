@@ -1465,6 +1465,11 @@ def broadcast_message(message):
 
     bot.reply_to(message, response)
 
+def keep_alive():
+    while True:
+        print("Bot is running...")
+        time.sleep(60)
+
 
 if __name__ == "__main__":
     print("✅ Bot is active!... ")
